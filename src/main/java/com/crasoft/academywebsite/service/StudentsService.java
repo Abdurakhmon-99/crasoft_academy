@@ -27,11 +27,11 @@ public class StudentsService {
         List<Students> studentsList = studentsRepository.findAll();
         List<StudentsResponseModel> models = studentsList.stream().map(student -> modelMapper.map(student,StudentsResponseModel.class)).collect(Collectors.toList());
         models.forEach(model -> {
+            model.setEnrolledCourses(new ArrayList<>());
             Students studentDTO = studentsRepository.findById(model.getId()).get();
             ArrayList<String> coursesID = studentDTO.getEnrolledCoursesId();
             coursesID.forEach(courseID -> {
                 Courses courseDto = coursesRepository.findById(courseID).get();
-                model.setEnrolledCourses(new ArrayList<>());
                 model.addEnrolledCourses(modelMapper.map(courseDto,EnrolledCourses.class));
             });
         });
@@ -39,20 +39,46 @@ public class StudentsService {
         return models;
     }
 
-    public Students createStudent(Students student) {
-        return studentsRepository.save(student);
+    public StudentsResponseModel createStudent(Students student) {
+        Students studentCreated = studentsRepository.save(student);
+        StudentsResponseModel model = modelMapper.map(studentCreated, StudentsResponseModel.class);
+        model.setEnrolledCourses(new ArrayList<>());
+        studentCreated.getEnrolledCoursesId().forEach(courseId -> {
+            Courses course = coursesRepository.findById(courseId).get();
+            EnrolledCourses enrolledCourses = modelMapper.map(course, EnrolledCourses.class);
+            model.addEnrolledCourses(enrolledCourses);
+        });
+        return model;
     }
 
-    public Students updateStudent(String id, Students student) {
+    public StudentsResponseModel updateStudent(String id, Students student) {
         student.setId(id);
-        return studentsRepository.save(student);
+        Students existingStudent = studentsRepository.findById(id).get();
+        student.setAttendances(existingStudent.getAttendances());
+        studentsRepository.save(student);
+        StudentsResponseModel model = modelMapper.map(student, StudentsResponseModel.class);
+        model.setEnrolledCourses(new ArrayList<>());
+        student.getEnrolledCoursesId().forEach(courseId -> {
+            Courses course = coursesRepository.findById(courseId).get();
+            EnrolledCourses enrolledCourses = modelMapper.map(course, EnrolledCourses.class);
+            model.addEnrolledCourses(enrolledCourses);
+        });
+        return model;
     }
 
     public void deleteStudent(String id) {
         studentsRepository.deleteById(id);
     }
 
-    public Students getStudentById(String id) {
-        return studentsRepository.findById(id).get();
+    public StudentsResponseModel getStudentById(String id) {
+        Students student = studentsRepository.findById(id).get();
+        StudentsResponseModel model = modelMapper.map(student, StudentsResponseModel.class);
+        model.setEnrolledCourses(new ArrayList<>());
+        student.getEnrolledCoursesId().forEach(courseId -> {
+            Courses course = coursesRepository.findById(courseId).get();
+            EnrolledCourses enrolledCourses = modelMapper.map(course, EnrolledCourses.class);
+            model.addEnrolledCourses(enrolledCourses);
+        });
+        return model;
     }
 }

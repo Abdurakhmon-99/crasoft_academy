@@ -29,5 +29,4 @@ public class Students {
     @Field(name = "enrolled_courses")
     private ArrayList<String> enrolledCoursesId;
     private List<StudentAttendance> attendances;
-
 }

@@ -25,20 +25,24 @@ public class StudentsController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     @GetMapping("/{id}")
-    public Students getStudentById(@PathVariable String id){
-        return studentsService.getStudentById(id);
+    public ResponseEntity<StudentsResponseModel> getStudentById(@PathVariable String id){
+        StudentsResponseModel model = studentsService.getStudentById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(model);
     }
 
     @PostMapping
-    public Students createStudent(@RequestBody Students student){
-        return studentsService.createStudent(student);
+    public ResponseEntity<StudentsResponseModel> createStudent(@RequestBody Students student){
+        StudentsResponseModel createdStudent = studentsService.createStudent(student);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
     }
     @PutMapping("/{id}")
-    public Students updateStudent(@PathVariable String id,@RequestBody Students student){
-        return studentsService.updateStudent(id, student);
+    public ResponseEntity<StudentsResponseModel> updateStudent(@PathVariable String id,@RequestBody Students student){
+        StudentsResponseModel model = studentsService.updateStudent(id, student);
+        return ResponseEntity.status(HttpStatus.OK).body(model);
     }
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable String id){
+    public ResponseEntity deleteStudent(@PathVariable String id){
         studentsService.deleteStudent(id);
+        return ResponseEntity.noContent().build();
     }
 }
