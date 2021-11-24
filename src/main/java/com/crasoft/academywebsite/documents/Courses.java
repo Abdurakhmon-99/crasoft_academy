@@ -1,6 +1,7 @@
 package com.crasoft.academywebsite.documents;
 
 import com.crasoft.academywebsite.documents.subdocuments.CourseModules;
+import com.crasoft.academywebsite.documents.subdocuments.CoursesGroups;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -27,6 +28,7 @@ public class Courses {
     private Date createdAt;
     @Field(name = "course_content")
     private List<CourseModules> courseContent;
+    private List<CoursesGroups> groups;
     private String slug;
 
 }

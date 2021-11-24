@@ -1,8 +1,9 @@
 package com.crasoft.academywebsite.controller;
 
+import com.crasoft.academywebsite.documents.Attendance;
 import com.crasoft.academywebsite.documents.Students;
+import com.crasoft.academywebsite.documents.subdocuments.StudentsAttendance;
 import com.crasoft.academywebsite.models.StudentsResponseModel;
-import com.crasoft.academywebsite.repository.StudentsRepository;
 import com.crasoft.academywebsite.service.StudentsService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,10 @@ public class StudentsController {
     public ResponseEntity deleteStudent(@PathVariable String id){
         studentsService.deleteStudent(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id}/attendance/{courseId}/{group}")
+    public ResponseEntity<StudentsAttendance> getStudentsAttendanceByCourse(@PathVariable("id") String id, @PathVariable("courseId") String courseId, @PathVariable("group") String group){
+        StudentsAttendance attendance = studentsService.getStudentAttendanceByCourseAndGroup(id, courseId, group);
+        return ResponseEntity.status(HttpStatus.OK).body(attendance);
     }
 }

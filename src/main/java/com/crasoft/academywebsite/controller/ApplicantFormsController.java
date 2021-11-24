@@ -28,23 +28,28 @@ public class ApplicantFormsController {
         List<ApplicantFormsResponseModel> applications = applicantFormsService.getAllActiveApplications();
         return ResponseEntity.status(HttpStatus.OK).body(applications);
     }
-    @GetMapping("/discarded")
-    public ResponseEntity<List<ApplicantFormsResponseModel>> getAllDiscardedApplications(){
-        List<ApplicantFormsResponseModel> applications = applicantFormsService.getAllDiscardedApplications();
+    @GetMapping("/cancelled")
+    public ResponseEntity<List<ApplicantFormsResponseModel>> getAllCancelledApplications(){
+        List<ApplicantFormsResponseModel> applications = applicantFormsService.getAllCancelledApplications();
         return ResponseEntity.status(HttpStatus.OK).body(applications);
     }
-    @PutMapping("/discard/{id}")
-    public ResponseEntity<ApplicantFormsResponseModel> discardApplication(@PathVariable("id") String id, @RequestBody DiscardCommentModel commentModel){
-        ApplicantFormsResponseModel model = applicantFormsService.discardApplicationById(id, commentModel);
+    @GetMapping("/enrolled")
+    public ResponseEntity<List<ApplicantFormsResponseModel>> getAllEnrolledApplications(){
+        List<ApplicantFormsResponseModel> applications = applicantFormsService.getAllEnrolledApplications();
+        return ResponseEntity.status(HttpStatus.OK).body(applications);
+    }
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<ApplicantFormsResponseModel> cancelApplication(@PathVariable("id") String id, @RequestBody(required = false) DiscardCommentModel commentModel){
+        ApplicantFormsResponseModel model = applicantFormsService.cancelApplicationById(id, commentModel);
         return ResponseEntity.status(HttpStatus.OK).body(model);
     }
-    @PutMapping("/contact/{id}")
+    @PutMapping("/{id}/contact")
     public ResponseEntity<ApplicantFormsResponseModel> contactApplication(@PathVariable("id") String id){
         ApplicantFormsResponseModel model = applicantFormsService.contactApplicationById(id);
         return ResponseEntity.status(HttpStatus.OK).body(model);
     }
-    @PostMapping("/enroll/{id}")
-    public ResponseEntity<StudentsResponseModel> enrollApplication(@PathVariable("id") String id, @RequestBody ArrayList<String> coursesToEnroll){
+    @PostMapping("/{id}/enroll")
+    public ResponseEntity<StudentsResponseModel> enrollApplication(@PathVariable("id") String id, @RequestBody List<EnrolledCourses> coursesToEnroll){
         StudentsResponseModel model = applicantFormsService.enrollApplicationById(id, coursesToEnroll);
         return ResponseEntity.status(HttpStatus.OK).body(model);
     }

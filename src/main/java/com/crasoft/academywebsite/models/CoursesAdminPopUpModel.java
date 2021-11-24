@@ -2,6 +2,7 @@ package com.crasoft.academywebsite.models;
 
 import com.crasoft.academywebsite.documents.subdocuments.AdminPopUpMentor;
 import com.crasoft.academywebsite.documents.subdocuments.CourseModules;
+import com.crasoft.academywebsite.documents.subdocuments.CoursesGroups;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,6 +26,7 @@ public class CoursesAdminPopUpModel {
     private String videoLink;
     @Field(name = "created_at")
     private Date createdAt;
+    private List<CoursesGroups> groups;
     @Field(name = "course_content")
     private List<CourseModules> courseContent;
     private String slug;

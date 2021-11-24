@@ -4,12 +4,11 @@ import com.crasoft.academywebsite.documents.Courses;
 import com.crasoft.academywebsite.models.CoursesAdminPopUpModel;
 import com.crasoft.academywebsite.documents.Mentors;
 import com.crasoft.academywebsite.documents.subdocuments.AdminPopUpMentor;
-import com.crasoft.academywebsite.models.CourseStatisticsResponseModel;
 import com.crasoft.academywebsite.models.CoursesAdminListModel;
+import com.crasoft.academywebsite.models.CoursesAdminPopUpRequestModel;
 import com.crasoft.academywebsite.repository.ApplicantFormsRepository;
 import com.crasoft.academywebsite.repository.MentorsRepository;
 import com.crasoft.academywebsite.repository.StudentsRepository;
-import org.modelmapper.convention.MatchingStrategies;
 import com.crasoft.academywebsite.repository.CoursesRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +43,9 @@ public class CoursesService {
         return courses;
     }
 
-    public Courses createCourse(CoursesAdminPopUpModel newCourse) {
+    public Courses createCourse(CoursesAdminPopUpRequestModel newCourse) {
         Courses courseDto = modelMapper.map(newCourse, Courses.class);
-        courseDto.setMentorsId(newCourse.getMentor().getId());
-        Mentors existingMentor = mentorsRepository.findById(newCourse.getMentor().getId()).get();
+        Mentors existingMentor = mentorsRepository.findById(newCourse.getMentorsId()).get();
         if(existingMentor != null){
             long createdTime = System.currentTimeMillis();
             Date dateToSave = new Date(createdTime);
@@ -57,21 +55,19 @@ public class CoursesService {
                 existingMentor.setCourses(new ArrayList<>());
             }
             existingMentor.addCourse(responseCourse.getId());
-            System.out.println(existingMentor.getCourses());
             mentorsRepository.save(existingMentor);
 
             return responseCourse;
         }
         return null;
     }
-    public Courses updateCourse(String id, CoursesAdminPopUpModel updatedCourse){
+    public Courses updateCourse(String id, CoursesAdminPopUpRequestModel updatedCourse){
         updatedCourse.setId(id);
         Courses courseDto = modelMapper.map(updatedCourse,Courses.class);
         Courses existingCourse = coursesRepository.findById(id).get();
-        if(updatedCourse.getMentor().getId()  != existingCourse.getMentorsId()){
-            courseDto.setMentorsId(updatedCourse.getMentor().getId());
+        if(updatedCourse.getMentorsId()  != existingCourse.getMentorsId()){
             Mentors oldMentor = mentorsRepository.findById(existingCourse.getMentorsId()).get();
-            Mentors newMentor = mentorsRepository.findById(updatedCourse.getMentor().getId()).get();
+            Mentors newMentor = mentorsRepository.findById(updatedCourse.getMentorsId()).get();
             oldMentor.removeCourse(id);
             newMentor.addCourse(id);
             mentorsRepository.save(oldMentor);

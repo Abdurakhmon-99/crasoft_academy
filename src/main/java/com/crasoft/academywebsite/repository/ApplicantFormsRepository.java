@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ApplicantFormsRepository extends MongoRepository<ApplicantForms, String> {
     List<ApplicantForms> findByStatusIsLike(String status);
+    long countByStatusIsLike(String status);
 }

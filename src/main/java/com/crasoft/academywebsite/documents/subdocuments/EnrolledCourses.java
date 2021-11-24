@@ -8,4 +8,5 @@ public class EnrolledCourses {
     @Id
     private String id;
     private String title;
+    private String group;
 }
