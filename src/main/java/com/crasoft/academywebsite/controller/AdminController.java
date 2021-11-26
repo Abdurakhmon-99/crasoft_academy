@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 @Api(value = "Documentation of the Courses of the IT academy", tags = {"Admin"})
@@ -37,5 +39,9 @@ public class AdminController {
     public ResponseEntity<DashboardStatisticsResponseModel> getApplicationStatistics(){
         DashboardStatisticsResponseModel model = applicantFormsService.getStatistics();
         return ResponseEntity.status(HttpStatus.OK).body(model);
+    }
+    @GetMapping("/refresh_token")
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response){
+
     }
 }
