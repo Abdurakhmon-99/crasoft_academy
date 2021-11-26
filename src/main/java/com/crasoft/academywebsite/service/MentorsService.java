@@ -14,4 +14,5 @@ public interface MentorsService extends UserDetailsService {
     void deleteMentor(String id);
     List<Mentors> getAllSorted();
     Mentors getMentorDetailsByUsername(String username);
+    boolean isMentor(String username);
 }

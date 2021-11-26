@@ -33,13 +33,6 @@ public class AdminController {
     public Admin createAdmin(@RequestBody LoginRequestModel adminDetails){
         return adminService.createAdmin(adminDetails);
     }
-    @PostMapping("login")
-    public Admin checkIfLoginIsWorking(Principal user){
-        if(adminService.isAdmin(user.getName()) || mentorsRepository.findByUsername(user.getName()) != null){
-            return adminRepository.findByUsername(user.getName());
-        }
-        return null;
-    }
     @GetMapping("statistics")
     public ResponseEntity<DashboardStatisticsResponseModel> getApplicationStatistics(){
         DashboardStatisticsResponseModel model = applicantFormsService.getStatistics();

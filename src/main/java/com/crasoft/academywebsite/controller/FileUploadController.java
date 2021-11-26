@@ -47,13 +47,10 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/")
-    public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+    @PostMapping("/upload")
+    public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file) {
 
         storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
 
         return ResponseEntity.noContent().build();
     }

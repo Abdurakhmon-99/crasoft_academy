@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,11 +88,16 @@ public class CoursesService {
     }
 
     public CoursesAdminPopUpModel getCourseById(String id) {
-        Courses existingCourse = coursesRepository.findById(id).get();
-        CoursesAdminPopUpModel adminPopUpModel = modelMapper.map(existingCourse,CoursesAdminPopUpModel.class);
-        Mentors mentor = mentorsRepository.findById(existingCourse.getMentorsId()).get();
-        AdminPopUpMentor courseMentor = modelMapper.map(mentor, AdminPopUpMentor.class);
-        adminPopUpModel.setMentor(courseMentor);
-        return adminPopUpModel;
+        try {
+            Courses existingCourse = coursesRepository.findById(id).get();
+            CoursesAdminPopUpModel adminPopUpModel = modelMapper.map(existingCourse,CoursesAdminPopUpModel.class);
+            Mentors mentor = mentorsRepository.findById(existingCourse.getMentorsId()).get();
+            AdminPopUpMentor courseMentor = modelMapper.map(mentor, AdminPopUpMentor.class);
+            adminPopUpModel.setMentor(courseMentor);
+            return adminPopUpModel;
+        } catch (Exception ex){
+            throw new NoSuchElementException("Course with provided ID do not exist!");
+        }
+
     }
 }

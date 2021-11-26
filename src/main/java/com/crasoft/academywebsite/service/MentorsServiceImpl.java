@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -91,10 +93,20 @@ public class MentorsServiceImpl implements MentorsService{
     }
 
     @Override
+    public boolean isMentor(String username) {
+        if(mentorsRepository.findByUsername(username)==null){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Mentors mentor = mentorsRepository.findByUsername(username);
         if(mentor == null) throw new UsernameNotFoundException(username);
-
-        return new User(mentor.getUsername(),mentor.getEncryptedPassword(), true,true,true,true, new ArrayList<>());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_MENTOR"));
+        return new User(mentor.getUsername(),mentor.getEncryptedPassword(), true,true,true,true, authorities);
     }
+
 }
