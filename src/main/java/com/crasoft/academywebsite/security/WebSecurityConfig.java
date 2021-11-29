@@ -50,11 +50,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests((requests) -> {
             try {
                 requests
+                        .antMatchers("/login", "/token/refresh/**").permitAll()
                         .antMatchers("/applications/**").hasRole("ADMIN")
                         .antMatchers("/courses/**").hasRole("ADMIN")
-                        .antMatchers("/mentors").hasRole("ADMIN")
-                        .antMatchers("/applications").hasRole("ADMIN")
+                        .antMatchers("/mentors/**").hasRole("ADMIN")
                         .antMatchers("/admin").denyAll()
+                        .antMatchers("/statistics").hasRole("ADMIN")
                         .antMatchers("/students").hasAnyRole("ADMIN", "MENTOR")
                         .and()
                         .addFilter(getAuthenticationFilter());

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.crasoft.academywebsite.exceptions.StorageFileNotFoundException;
 import com.crasoft.academywebsite.service.StorageService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -14,9 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+@Api(value = "Documentation of the File Upload of the IT academy", tags = {"File Upload"})
 @RestController
 public class FileUploadController {
 
