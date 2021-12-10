@@ -92,7 +92,7 @@ public class AdminController {
         }
 
     }
-    //@ApiOperation("login")
+    @ApiOperation("login")
     @PostMapping("/login")
     public void fakeLogin(@RequestBody LoginRequestModel model) {
         throw new IllegalStateException("This method shouldn't be called. It's implemented by Spring Security filters.");

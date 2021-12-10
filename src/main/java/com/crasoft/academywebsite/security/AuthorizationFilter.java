@@ -42,7 +42,9 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                     throw new BadCredentialsException("Invalid Token received!");
                 }
             }
-            filterChain.doFilter(request, response);
+            else {
+                filterChain.doFilter(request, response);
+            }
         }
     }
 }
