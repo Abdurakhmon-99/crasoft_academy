@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,8 +20,10 @@ public class ApplicantForms {
     private String id;
 
     @Field(name = "first_name")
+    @Size(min = 2, max = 18)
     private String firstName;
     @Field(name = "last_name")
+    @Size(min = 2, max = 18)
     private String lastName;
     private String phone;
     private String email;
@@ -27,6 +31,7 @@ public class ApplicantForms {
     private ArrayList<String> interestedCourses;
     private String comments;
     @Field(name = "created_at")
+    @NotNull
     private Date createdAt;
     private String status;
 }
