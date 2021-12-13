@@ -27,7 +27,7 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String listUploadedFiles(Model model) throws IOException {
 
         model.addAttribute("files", storageService.loadAll().map(
@@ -45,7 +45,7 @@ public class FileUploadController {
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
+    }*/
 
     @PostMapping("/upload")
     public ResponseEntity handleFileUpload(@RequestParam("file") MultipartFile file) {
