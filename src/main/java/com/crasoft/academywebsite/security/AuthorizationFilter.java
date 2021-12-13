@@ -41,8 +41,9 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                 }catch (Exception e) {
                     throw new BadCredentialsException("Invalid Token received!");
                 }
+            }else{
+                filterChain.doFilter(request, response);
             }
-            filterChain.doFilter(request, response);
         }
     }
 }
